@@ -7,12 +7,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,6 +28,14 @@ public class StudentServiceTests {
     public void testAllStudents() {
         when(studentRepository.findAll()).thenReturn(Arrays.asList(new Student(2L, "one", "two", "three"), new Student(2L, "one", "two", "three")));
 
-        assertEquals(2,studentService.all().get(0).getId());
+        assertEquals(2, studentService.all().get(0).getId());
+    }
+
+
+    @Test
+    public void testCreate() {
+        when(studentRepository.save(anyObject())).thenReturn(new Student(100L, "one", "two", "three"));
+
+        assertEquals(100L, studentService.create(new Student(100L, "one", "two", "three")).getId());
     }
 }
